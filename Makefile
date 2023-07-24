@@ -14,10 +14,13 @@ X86_NANOLIBC := libc/libc.c libc/printf.c libc/_start.x86_64.s
 
 .PHONY: all clean
 
-all: ppcinterp
+all: ppcinterp demo/args
 
 clean:
-	rm ppcinterp
+	rm ppcinterp demo/args
 
 ppcinterp: ppcinterp.c libc/nanolibc.h $(X86_NANOLIBC)
 	gcc -DNANOLIBC $(X86_CFLAGS) -Ilibc -o ppcinterp ppcinterp.c $(X86_NANOLIBC)
+
+demo/args: demo/args.c libc/nanolibc.h $(PPC_NANOLIBC)
+	powerpc-linux-gnu-gcc -DNANOLIBC $(PPC_CFLAGS) -Ilibc -o demo/args demo/args.c $(PPC_NANOLIBC)
